@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Header from './components/header';
-import Footer from './components/footer';
+import Footer from './components/Footer';
 import HeroSection from './components/sections/HeroSection';
 import ExploreCryptoSection from './components/sections/ExploreCryptoSection';
 import AdvancedTraderSection from './components/sections/AdvancedTraderSection';
