@@ -1,0 +1,162 @@
+@import "tailwindcss";
+
+/* ═══════════════════════════════════════════
+   COINBASE DESIGN SYSTEM TOKENS
+   Extracted from @coinbase/cds-web themes
+   ═══════════════════════════════════════════ */
+
+@theme {
+  /* ── Colors ── */
+  --color-blue-60: #0052FF;
+  --color-blue-50: #105EFF;
+  --color-blue-0: #F5F8FF;
+  --color-green-60: #098551;
+  --color-red-60: #CF202F;
+  --color-orange-40: #ED702F;
+  --color-yellow-30: #F7D21A;
+  --color-gray-0: #FFFFFF;
+  --color-gray-5: #F7F8F9;
+  --color-gray-10: #EEF0F3;
+  --color-gray-15: #DEE1E7;
+  --color-gray-20: #CED2DB;
+  --color-gray-40: #89909E;
+  --color-gray-60: #5B616E;
+  --color-gray-80: #32353D;
+  --color-gray-90: #1E2025;
+  --color-gray-100: #0A0B0D;
+
+  /* ── Border Radius ── */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 24px;
+  --radius-pill: 56px;
+  --radius-full: 100000px;
+
+  /* ── Shadows ── */
+  --shadow-elevation-1: 0px 8px 12px rgba(0, 0, 0, 0.12);
+  --shadow-elevation-2: 0px 8px 24px rgba(0, 0, 0, 0.12);
+
+  /* ── Font Family ── */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  --font-mono: Menlo, Consolas, monospace;
+}
+
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    color: var(--color-gray-100);
+    background-color: var(--color-gray-0);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  button {
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+}
+
+/* ═══════════════════════════════════════════
+   TYPOGRAPHY UTILITY CLASSES
+   ═══════════════════════════════════════════ */
+
+@utility text-display-1 {
+  font-size: 5rem;
+  line-height: 5rem;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+@utility text-display-2 {
+  font-size: 4rem;
+  line-height: 4rem;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+@utility text-display-3 {
+  font-size: 3rem;
+  line-height: 3rem;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+@utility text-title-1 {
+  font-size: 2rem;
+  line-height: 2rem;
+  font-weight: 600;
+}
+
+@utility text-title-3 {
+  font-size: 2rem;
+  line-height: 2rem;
+  font-weight: 600;
+}
+
+@utility text-headline {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-weight: 600;
+}
+
+@utility text-body {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-weight: 400;
+}
+
+@utility text-label-1 {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 600;
+}
+
+@utility text-label-2 {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 400;
+}
+
+@utility text-caption {
+  font-size: 0.8125rem;
+  line-height: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+@utility text-legal {
+  font-size: 0.8125rem;
+  line-height: 1rem;
+  font-weight: 400;
+}
+
+/* ── Live price: number flip ── */
+@keyframes flip-up {
+  0%   { transform: translateY(55%); opacity: 0; }
+  100% { transform: translateY(0);   opacity: 1; }
+}
+@keyframes flip-down {
+  0%   { transform: translateY(-55%); opacity: 0; }
+  100% { transform: translateY(0);    opacity: 1; }
+}
+.flip-up   { animation: flip-up   0.28s cubic-bezier(0.16, 1, 0.3, 1); display: inline-block; overflow: hidden; }
+.flip-down { animation: flip-down 0.28s cubic-bezier(0.16, 1, 0.3, 1); display: inline-block; overflow: hidden; }
+@keyframes coinbase-pulse {
+  0%, 100% { opacity: 1;    transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.88); }
+}
