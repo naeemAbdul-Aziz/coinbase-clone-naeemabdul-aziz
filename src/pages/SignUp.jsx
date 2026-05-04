@@ -351,9 +351,15 @@ const StepNameEmail = ({ name, setName, email, setEmail, onNext }) => {
 		<ProgressBar current={0} total={2} />
 		<form onSubmit={handleSubmit}>
 			<h1 className="text-[1.75rem] font-bold text-white mb-2">Create your account</h1>
-			<p className="text-[0.9375rem] text-[#8A919E] mb-6 leading-6">
+			<p className="text-[0.9375rem] text-[#8A919E] mb-4 leading-6">
 				Access all that Coinbase has to offer with a single account.
 			</p>
+			
+			{/* Demo app warning */}
+			<div className="mb-6 px-3 py-2 rounded-lg bg-yellow-500/10 border border-yellow-500/30">
+				<p className="text-[0.8125rem] text-yellow-300 font-medium">⚠️ Demo app – do not use your real password</p>
+			</div>
+			
 			<DarkInput label="Full Name" type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Your full name" autoFocus />
 			<DarkInput label="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Your email address" />
 			{localError && (
@@ -416,9 +422,15 @@ const StepPassword = ({  email, password, setPassword, onNext, onBack, error }) 
 		</button>
 		<form onSubmit={handleSubmit}>
 			<h1 className="text-[1.75rem] font-bold text-white mb-1">Create a password</h1>
-			<p className="text-[0.9375rem] text-[#8A919E] mb-6 leading-6">
+			<p className="text-[0.9375rem] text-[#8A919E] mb-4 leading-6">
 				Setting up account for <span className="font-semibold text-white">{email}</span>
 			</p>
+			
+			{/* Demo app warning */}
+			<div className="mb-6 px-3 py-2 rounded-lg bg-yellow-500/10 border border-yellow-500/30">
+				<p className="text-[0.8125rem] text-yellow-300 font-medium">⚠️ Demo app – do not use your real password</p>
+			</div>
+			
 			<DarkInput label="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Min. 8 characters" autoFocus />
 			<DarkInput label="Confirm Password" type="password" value={confirm} onChange={(e) => setConfirm(e.target.value)} placeholder="Repeat your password" />
 			{(localError || error) && (
