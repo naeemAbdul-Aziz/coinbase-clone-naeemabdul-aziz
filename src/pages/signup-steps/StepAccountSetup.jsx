@@ -1,4 +1,4 @@
-import { Shell, BlueBtn, DarkBtn } from './SignupUI';
+import { Shell, BlueBtn, DarkBtn } from './SignupUI.jsx';
 
 const StepAccountSetup = ({ onNext }) => {
   return (

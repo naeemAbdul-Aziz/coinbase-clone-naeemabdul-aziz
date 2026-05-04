@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Shell, BlueBtn, DarkInput, GoogleIcon, AppleIcon } from './SignupUI';
+import { Shell, BlueBtn, DarkInput, GoogleIcon, AppleIcon } from './SignupUI.jsx';
 
 const StepEmail = ({ email, setEmail, name, setName, password, setPassword, onNext, error }) => {
   const [confirm, setConfirm] = useState('');

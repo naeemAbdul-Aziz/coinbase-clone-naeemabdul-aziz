@@ -2,12 +2,12 @@ import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { AnimatePresence } from 'motion/react';
 import { useAuth } from '../context/AuthContext';
-import Logo from './ui/Logo';
-import Button from './ui/Button';
-import Container from './ui/Container';
-import { NavDropdown, NavMenuItem, NavSectionHeader, NavFeatured } from './ui/navbar-menu';
-import SearchDropdown from './ui/SearchDropdown';
-import LanguageDropdown from './ui/LanguageDropdown';
+import Logo from './ui/Logo.jsx';
+import Button from './ui/Button.jsx';
+import Container from './ui/Container.jsx';
+import { NavDropdown, NavMenuItem, NavSectionHeader, NavFeatured } from './ui/navbar-menu.jsx';
+import SearchDropdown from './ui/SearchDropdown.jsx';
+import LanguageDropdown from './ui/LanguageDropdown.jsx';
 
 /* ── Simple icon components ── */
 const Icon = ({ children }) => (

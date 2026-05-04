@@ -1,4 +1,4 @@
-import Container from './ui/Container';
+import Container from '../ui/Container.jsx';
 
 const SplitSection = ({
 	children,
