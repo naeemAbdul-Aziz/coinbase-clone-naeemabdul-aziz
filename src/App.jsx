@@ -4,7 +4,7 @@ import { AuthProvider } from './context/AuthContext.jsx';
 import { useAuth } from './context/AuthContext.jsx';
 import PrivateRoute from './components/PrivateRoute.jsx';
 import Header from './components/header.jsx';
-import Footer from './components/footer.jsx';
+import Footer from './components/Footer.jsx';
 import HeroSection from './components/sections/HeroSection.jsx';
 import ExploreCryptoSection from './components/sections/ExploreCryptoSection.jsx';
 import AdvancedTraderSection from './components/sections/AdvancedTraderSection.jsx';
