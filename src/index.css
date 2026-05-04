@@ -6,6 +6,16 @@
    ═══════════════════════════════════════════ */
 
 @theme {
+  /* ── Dashboard / Admin palette ── */
+  --color-gray-700: #344054;
+  --color-gray-800: #1d2939;
+  --color-gray-900: #111827;
+  --color-gray-950: #0a0f1a;
+  --color-brand-50:  #ecf3ff;
+  --color-brand-100: #dde9ff;
+  --color-brand-400: #7592ff;
+  --color-brand-500: #0052FF;
+  --color-brand-600: #3641f5;
   /* ── Colors ── */
   --color-blue-60: #0052FF;
   --color-blue-50: #105EFF;
@@ -49,6 +59,7 @@
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: transparent;
     scroll-behavior: smooth;
+    background-color: var(--color-gray-0);
   }
 
   body {
@@ -57,6 +68,11 @@
     background-color: var(--color-gray-0);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+
+  html:has(.dashboard-root),
+  body:has(.dashboard-root) {
+    background-color: #0a0f1a;
   }
 
   button {
@@ -159,4 +175,87 @@
 @keyframes coinbase-pulse {
   0%, 100% { opacity: 1;    transform: scale(1); }
   50%       { opacity: 0.4; transform: scale(0.88); }
+}
+
+/* ── Bouncing-dot loader ── */
+.cb-loader {
+  width: 64px;
+  height: 12px;
+  background:
+    radial-gradient(circle 6px, #fff 100%, transparent 0),
+    radial-gradient(circle 6px, #fff 100%, transparent 0);
+  background-size: 12px 12px;
+  background-position: left center, right center;
+  background-repeat: no-repeat;
+  position: relative;
+}
+.cb-loader::before {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #0052FF;
+  inset: 0;
+  margin: auto;
+  animation: cb-mvX 0.6s cubic-bezier(.5,-300,.5,300) infinite,
+             cb-mvY 0.3s cubic-bezier(.5,-300,.5,300) infinite;
+}
+@keyframes cb-mvX {
+  100% { left: 0.85px; }
+}
+@keyframes cb-mvY {
+  100% { top: 0.5px; }
+}
+
+/* ═══════════════════════════════════════════
+   DASHBOARD SIDEBAR UTILITIES
+   ═══════════════════════════════════════════ */
+
+@utility menu-item {
+  @apply relative flex items-center w-full gap-3 px-3 py-2 font-medium rounded-lg text-sm;
+}
+
+@utility menu-item-active {
+  @apply bg-brand-500/10 text-brand-500;
+}
+
+@utility menu-item-inactive {
+  @apply text-gray-400 hover:bg-gray-800 hover:text-white;
+}
+
+@utility menu-item-icon-active {
+  @apply text-brand-500;
+}
+
+@utility menu-item-icon-inactive {
+  @apply text-gray-500 group-hover:text-white;
+}
+
+@utility menu-item-icon-size {
+  & svg {
+    @apply size-5;
+  }
+}
+
+@utility menu-item-text {
+  @apply text-sm font-medium;
+}
+
+@utility menu-dropdown-item {
+  @apply flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium;
+}
+
+@utility menu-dropdown-item-active {
+  @apply bg-brand-500/10 text-brand-500;
+}
+
+@utility menu-dropdown-item-inactive {
+  @apply text-gray-400 hover:bg-gray-800 hover:text-white;
+}
+
+@utility no-scrollbar {
+  &::-webkit-scrollbar { display: none; }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Logo from '../components/ui/Logo';
+import { useAuth } from '../context/AuthContext';
 
 /* ── Icons ── */
 const PasskeyIcon = () => (
@@ -57,17 +58,29 @@ const SignIn = () => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [showPassword, setShowPassword] = useState(false);
+	const [error, setError] = useState('');
+	const [loading, setLoading] = useState(false);
+	const { login } = useAuth();
 	const navigate = useNavigate();
 
 	const handleEmailContinue = (e) => {
 		e.preventDefault();
+		setError('');
 		if (email.trim()) setStep('password');
 	};
 
-	const handlePasswordContinue = (e) => {
+	const handlePasswordContinue = async (e) => {
 		e.preventDefault();
-		// No backend — navigate to verify code page
-		navigate('/verify', { state: { email } });
+		setError('');
+		setLoading(true);
+		try {
+			await login(email, password);
+			navigate('/dashboard');
+		} catch (err) {
+			setError(err.response?.data?.message || 'Login failed. Please try again.');
+		} finally {
+			setLoading(false);
+		}
 	};
 
 	return (
@@ -177,7 +190,7 @@ const SignIn = () => {
 							</div>
 
 							{/* Forgot password */}
-							<div className="mb-6">
+							<div className="mb-4">
 								<Link
 									to="/forgot-password"
 									state={{ email }}
@@ -187,12 +200,20 @@ const SignIn = () => {
 								</Link>
 							</div>
 
+							{/* Error message */}
+							{error && (
+								<div className="mb-4 px-4 py-3 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-sm">
+									{error}
+								</div>
+							)}
+
 							{/* Continue button */}
 							<button
 								type="submit"
-								className="w-full h-14 rounded-full bg-[#3B4DE0] hover:bg-[#2F3FC0] active:bg-[#2535A0] text-white font-semibold text-[0.9375rem] transition-colors"
+								disabled={loading}
+								className="w-full h-14 rounded-full bg-[#3B4DE0] hover:bg-[#2F3FC0] active:bg-[#2535A0] disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold text-[0.9375rem] transition-colors"
 							>
-								Continue
+								{loading ? 'Signing in…' : 'Continue'}
 							</button>
 						</form>
 					)}

@@ -1,0 +1,16 @@
+<svg preserveAspectRatio="none" width="100%" height="100%" overflow="visible" style="display: block;" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Group 30">
+<circle id="Ellipse 46" cx="17" cy="17" r="17" fill="var(--fill-0, white)"/>
+<circle id="Ellipse 47" cx="17" cy="17" r="15" fill="var(--fill-0, #CDD2DA)"/>
+<g id="Add" clip-path="url(#clip0_0_33)">
+<g id="Vector">
+</g>
+<path id="Vector_2" d="M24 18H18V24H16V18H10V16H16V10H18V16H24V18Z" fill="var(--fill-0, #0A0A0C)"/>
+</g>
+</g>
+<defs>
+<clipPath id="clip0_0_33">
+<rect width="24" height="24" fill="white" transform="translate(5 5)"/>
+</clipPath>
+</defs>
+</svg>

@@ -1,14 +1,36 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Shell, BlueBtn, DarkInput, GoogleIcon, AppleIcon } from './SignupUI';
 
-const StepEmail = ({ email, setEmail, onNext }) => (
+const StepEmail = ({ email, setEmail, name, setName, password, setPassword, onNext, error }) => {
+  const [confirm, setConfirm] = useState('');
+  const [localError, setLocalError] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setLocalError('');
+    if (!name.trim() || !email.trim() || !password.trim()) return;
+    if (password.length < 8) { setLocalError('Password must be at least 8 characters'); return; }
+    if (password !== confirm) { setLocalError('Passwords do not match'); return; }
+    onNext();
+  };
+
+  return (
   <Shell>
-    <form onSubmit={(e) => { e.preventDefault(); if (email.trim()) onNext(); }}>
+    <form onSubmit={handleSubmit}>
       <h1 className="text-[1.75rem] font-bold text-white mb-2">Create your account</h1>
       <p className="text-[0.9375rem] text-[#8A919E] mb-6 leading-6">
         Access all that Coinbase has to offer with a single account.
       </p>
+      <DarkInput label="Full Name" type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Your full name" />
       <DarkInput label="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Your email address" />
+      <DarkInput label="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Min. 8 characters" />
+      <DarkInput label="Confirm Password" type="password" value={confirm} onChange={(e) => setConfirm(e.target.value)} placeholder="Repeat your password" />
+      {(localError || error) && (
+        <div className="mb-4 px-4 py-3 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-sm">
+          {localError || error}
+        </div>
+      )}
       <BlueBtn type="submit">Continue</BlueBtn>
 
       <div className="flex items-center gap-3 my-5">
@@ -37,6 +59,7 @@ const StepEmail = ({ email, setEmail, onNext }) => (
       </p>
     </form>
   </Shell>
-);
+  );
+};
 
 export default StepEmail;

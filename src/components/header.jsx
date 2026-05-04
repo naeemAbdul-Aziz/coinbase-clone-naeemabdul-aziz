@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { AnimatePresence } from 'motion/react';
+import { useAuth } from '../context/AuthContext';
 import Logo from './ui/Logo';
 import Button from './ui/Button';
 import Container from './ui/Container';
@@ -233,6 +234,7 @@ const DropdownContent = ({ menuKey }) => {
 
 /* ── Header ── */
 const Header = () => {
+	const { user } = useAuth();
 	const [activeMenu, setActiveMenu]   = useState(null);
 	const [searchActive, setSearchActive] = useState(false);
 	const [searchQuery, setSearchQuery]   = useState('');
@@ -350,19 +352,29 @@ const Header = () => {
 								</AnimatePresence>
 							</div>
 
-							{/* Sign in — gray pill */}
+							{user ? (
 							<Link
-								to="/signin"
-								className="hidden sm:flex items-center h-10 px-4 text-[0.875rem] font-semibold text-gray-100 bg-gray-10 hover:bg-gray-15 rounded-full transition-colors whitespace-nowrap"
+								to="/dashboard"
+								className="inline-flex items-center justify-center rounded-full font-semibold transition-all duration-200 bg-blue-60 text-white hover:opacity-90 px-4 py-2 text-label-1 whitespace-nowrap"
 							>
-								Sign in
+								Dashboard
 							</Link>
-							<Link
-															to="/account-type"
-								className="inline-flex items-center justify-center rounded-pill font-semibold transition-all duration-200 bg-blue-60 text-white hover:opacity-90 px-4 py-2 text-label-1 whitespace-nowrap"
-							>
-								Sign up
-							</Link>
+						) : (
+							<>
+								<Link
+									to="/signin"
+									className="hidden sm:flex items-center h-10 px-4 text-[0.875rem] font-semibold text-gray-100 bg-gray-10 hover:bg-gray-15 rounded-full transition-colors whitespace-nowrap"
+								>
+									Sign in
+								</Link>
+								<Link
+									to="/account-type"
+									className="inline-flex items-center justify-center rounded-full font-semibold transition-all duration-200 bg-blue-60 text-white hover:opacity-90 px-4 py-2 text-label-1 whitespace-nowrap"
+								>
+									Sign up
+								</Link>
+							</>
+						)}
 
 							{/* Mobile hamburger — Coinbase icon */}
 							<button className="lg:hidden flex w-10 h-10 items-center justify-center rounded-full bg-gray-10 hover:bg-gray-15 transition-colors">

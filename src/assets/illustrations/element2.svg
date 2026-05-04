@@ -1,0 +1,18 @@
+<svg preserveAspectRatio="none" width="100%" height="100%" overflow="visible" style="display: block;" viewBox="0 0 184 478.176" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="element-1">
+<path id="Subtract" fill-rule="evenodd" clip-rule="evenodd" d="M0 124L0 478.176H184V124C171.119 162.461 134.796 190.176 92 190.176C49.2036 190.176 12.8805 162.461 0 124Z" fill="url(#paint0_linear_0_233)"/>
+<g id="Group 6">
+<g id="Group 4">
+<path id="Subtract_2" fill-rule="evenodd" clip-rule="evenodd" d="M92 184C142.81 184 184 142.81 184 92C184 41.1898 142.81 0 92 0C41.1898 0 0 41.1898 0 92C0 142.81 41.1898 184 92 184ZM92 169C134.526 169 169 134.526 169 92C169 49.4741 134.526 15 92 15C49.4741 15 15 49.4741 15 92C15 134.526 49.4741 169 92 169Z" fill="var(--fill-0, #C2D775)"/>
+<path id="Subtract_3" fill-rule="evenodd" clip-rule="evenodd" d="M91.5 141C118.286 141 140 119.286 140 92.5C140 65.7142 118.286 44 91.5 44C64.7142 44 43 65.7142 43 92.5C43 119.286 64.7142 141 91.5 141ZM82 79C79.7909 79 78 80.7909 78 83V101C78 103.209 79.7909 105 82 105H101C103.209 105 105 103.209 105 101V83C105 80.7909 103.209 79 101 79H82Z" fill="var(--fill-0, white)"/>
+</g>
+<path id="Subtract_4" fill-rule="evenodd" clip-rule="evenodd" d="M183.995 93C183.998 92.6671 184 92.3337 184 92C184 41.1898 142.81 0 92 0C41.1898 0 0 41.1898 0 92C0 92.3337 0.00177719 92.6671 0.00532263 93H15.0064C15.0021 92.6672 15 92.3338 15 92C15 49.4741 49.4741 15 92 15C134.526 15 169 49.4741 169 92C169 92.3338 168.998 92.6672 168.994 93H183.995Z" fill="var(--fill-0, #1C49D9)"/>
+</g>
+</g>
+<defs>
+<linearGradient id="paint0_linear_0_233" x1="92" y1="171" x2="92" y2="328" gradientUnits="userSpaceOnUse">
+<stop stop-color="#CDD766"/>
+<stop offset="1" stop-color="#F8CF72"/>
+</linearGradient>
+</defs>
+</svg>

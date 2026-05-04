@@ -217,6 +217,16 @@ const Footer = () => {
 					))}
 				</div>
 
+				{/* Demo disclaimer */}
+				<div className="mt-10 rounded-xl border border-amber-500/25 bg-amber-500/8 px-5 py-4">
+					<p className="text-[0.8125rem] leading-6 text-amber-300/80">
+						<strong className="text-amber-300 font-semibold">Demo project &mdash; not affiliated with Coinbase, Inc.</strong>{' '}
+						This application was built as a student assignment for educational purposes only.
+						Do not enter real personal information, financial data, or real cryptocurrency wallet addresses.
+						All balances, transactions, and data shown are simulated and have no real-world value.
+					</p>
+				</div>
+
 				{/* Bottom area */}
 				<div className="flex flex-col gap-4 mt-12">
 					{/* Social icons */}

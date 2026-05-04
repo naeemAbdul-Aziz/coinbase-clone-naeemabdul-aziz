@@ -1,0 +1,20 @@
+<svg preserveAspectRatio="none" width="100%" height="100%" overflow="visible" style="display: block;" viewBox="0 0 377 315" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Group 64">
+<rect id="Rectangle 20" x="225" y="304" width="86" height="11" fill="url(#paint0_linear_0_141)"/>
+<rect id="Rectangle 24" y="96" width="87" height="129" fill="var(--fill-0, #71E086)"/>
+<path id="Subtract" fill-rule="evenodd" clip-rule="evenodd" d="M262 77H108V257H262V77ZM246 96H124V238H246V96Z" fill="url(#paint1_linear_0_141)"/>
+<rect id="Rectangle 23" x="128" y="101" width="111" height="133" fill="var(--fill-0, #9972D6)"/>
+<rect id="Rectangle 21" x="281" y="101" width="96" height="119" fill="var(--fill-0, #E74E6D)"/>
+<rect id="Rectangle 16" x="72" width="15" height="15" rx="2" fill="var(--fill-0, white)"/>
+</g>
+<defs>
+<linearGradient id="paint0_linear_0_141" x1="229" y1="309" x2="311" y2="309" gradientUnits="userSpaceOnUse">
+<stop stop-color="#DDBBF5"/>
+<stop offset="1" stop-color="#9830F3"/>
+</linearGradient>
+<linearGradient id="paint1_linear_0_141" x1="185" y1="77" x2="185" y2="257" gradientUnits="userSpaceOnUse">
+<stop stop-color="#70BF99"/>
+<stop offset="0.5" stop-color="#EAD54E"/>
+</linearGradient>
+</defs>
+</svg>

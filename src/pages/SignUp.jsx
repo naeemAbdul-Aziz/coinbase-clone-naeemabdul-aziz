@@ -1,22 +1,61 @@
 // Step 12: Verifying Address
-function VerifyingAddressStep() {
+function VerifyingAddressStep({ onDone }) {
+	const [verified, setVerified] = useState(false);
+
+	useEffect(() => {
+		const t = setTimeout(() => setVerified(true), 5000);
+		return () => clearTimeout(t);
+	}, []);
+
 	return (
 		<div className="min-h-screen bg-[#0A0B0D] flex flex-col items-center justify-center px-4">
 			<div className="flex flex-col items-center">
 				<div className="mb-8">
-					<div className="w-32 h-32 rounded-full bg-[#0052FF] flex items-center justify-center mx-auto">
-						<svg width="72" height="72" viewBox="0 0 48 48" fill="none">
-							<rect x="12" y="8" width="24" height="32" rx="2" fill="white" fillOpacity="0.9" />
-							<rect x="16" y="16" width="16" height="2" rx="1" fill="#0052FF" />
-							<rect x="16" y="22" width="16" height="2" rx="1" fill="#0052FF" />
-							<rect x="16" y="28" width="8" height="2" rx="1" fill="#0052FF" />
-							<circle cx="24" cy="36" r="2" fill="#0052FF" />
-						</svg>
+					<div className={`w-32 h-32 rounded-full bg-[#0052FF] flex items-center justify-center mx-auto ${verified ? '' : 'animate-pulse'}`}>
+						{verified ? (
+							<svg width="60" height="60" viewBox="0 0 52 52" fill="none">
+								<path d="M14 27l9 9 16-18" stroke="white" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
+							</svg>
+						) : (
+							<svg width="72" height="72" viewBox="0 0 48 48" fill="none">
+								<rect x="12" y="8" width="24" height="32" rx="2" fill="white" fillOpacity="0.9" />
+								<rect x="16" y="16" width="16" height="2" rx="1" fill="#0052FF" />
+								<rect x="16" y="22" width="16" height="2" rx="1" fill="#0052FF" />
+								<rect x="16" y="28" width="8" height="2" rx="1" fill="#0052FF" />
+								<circle cx="24" cy="36" r="2" fill="#0052FF" />
+							</svg>
+						)}
 					</div>
 				</div>
-				<h1 className="text-2xl font-bold text-white mb-2 text-center">Verifying your address...</h1>
-				<p className="text-[#8A919E] text-center">Address verification is in progress</p>
+				<h1 className="text-2xl font-bold text-white mb-2 text-center">
+					{verified ? 'Address verified!' : 'Verifying your address...'}
+				</h1>
+				<p className="text-[#8A919E] text-center">
+					{verified ? 'Your address has been successfully verified.' : 'Address verification is in progress'}
+				</p>
 			</div>
+
+			{verified && (
+				<div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-end sm:items-center justify-center z-50 px-4 pb-6 sm:pb-0">
+					<div className="w-full max-w-sm bg-[#16181C] rounded-2xl p-8 flex flex-col items-center text-center shadow-2xl">
+						<div className="w-20 h-20 rounded-full bg-[#0052FF] flex items-center justify-center mb-5">
+							<svg width="40" height="40" viewBox="0 0 52 52" fill="none">
+								<path d="M14 27l9 9 16-18" stroke="white" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
+							</svg>
+						</div>
+						<h2 className="text-[1.5rem] font-bold text-white mb-2">Address confirmed!</h2>
+						<p className="text-[0.9375rem] text-[#8A919E] mb-8 leading-6">
+							Your proof of address has been verified. You&apos;re ready to go.
+						</p>
+						<button
+							onClick={onDone}
+							className="w-full h-14 rounded-full bg-[#0052FF] hover:bg-[#1a5cff] text-white font-semibold text-[0.9375rem] transition-colors"
+						>
+							Continue to Coinbase
+						</button>
+					</div>
+				</div>
+			)}
 		</div>
 	);
 }
@@ -41,7 +80,7 @@ function AddressFailStep({ onRetry }) {
 }
 // Step 10: Verify Address
 import { useRef as useRef2 } from 'react';
-function VerifyAddressStep({ onNext, onFile }) {
+function VerifyAddressStep({  onFile }) {
 	const fileInputRef = useRef2(null);
 	return (
 		<div className="min-h-screen bg-[#0A0B0D] flex flex-col items-center justify-center px-4">
@@ -100,6 +139,12 @@ function VerifyAddressStep({ onNext, onFile }) {
 
 // Step 11: Preview Uploaded Address Document
 function PreviewAddressStep({ file, onConfirm, onReupload }) {
+	const objectUrl = useMemo(() => (file ? URL.createObjectURL(file) : null), [file]);
+
+	useEffect(() => {
+		return () => { if (objectUrl) URL.revokeObjectURL(objectUrl); };
+	}, [objectUrl]);
+
 	return (
 		<div className="min-h-screen bg-[#0A0B0D] flex flex-col items-center justify-center px-4">
 			<div className="w-full max-w-lg mx-auto">
@@ -107,10 +152,17 @@ function PreviewAddressStep({ file, onConfirm, onReupload }) {
 				<h2 className="text-lg font-semibold text-white mb-4">Is this document easy to read?</h2>
 				<p className="text-[#8A919E] mb-6">Make sure that the address listed on your document and the address you entered on Coinbase match exactly.</p>
 				<div className="flex flex-col items-center mb-8">
-					{file && file.type.startsWith('image') ? (
-						<img src={URL.createObjectURL(file)} alt="Uploaded document" className="max-w-full max-h-[400px] rounded-xl border border-[#23262B] mb-6" />
+					{objectUrl && file?.type.startsWith('image/') ? (
+						<img src={objectUrl} alt="Uploaded document" className="max-w-full max-h-[400px] rounded-xl border border-[#23262B] mb-6" />
+					) : objectUrl && file?.type === 'application/pdf' ? (
+						<iframe
+							src={objectUrl}
+							title="PDF preview"
+							className="w-full rounded-xl border border-[#23262B] mb-6"
+							style={{ height: '480px' }}
+						/>
 					) : (
-						<div className="w-full h-48 flex items-center justify-center bg-[#16181C] rounded-xl border border-[#23262B] mb-6 text-[#8A919E]">PDF preview not available</div>
+						<div className="w-full h-48 flex items-center justify-center bg-[#16181C] rounded-xl border border-[#23262B] mb-6 text-[#8A919E]">Loading preview…</div>
 					)}
 				</div>
 				<div className="mb-8">
@@ -154,9 +206,12 @@ function AllSetStep({ onContinue }) {
 		</div>
 	);
 }
-import { useState, useRef, useEffect, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import Logo from '../components/ui/Logo';
+import api from '../services/api';
+import { useAuth } from '../context/AuthContext';
+import { API_BASE } from '../config/api';
 
 /* ════════════════════════════════════════════════════
    Shared dark-page shell
@@ -265,16 +320,45 @@ const ChevronRight = () => (
 );
 
 /* ════════════════════════════════════════════════════
-   STEP 0 — Email entry (original sign-up)
+   STEP PROGRESS BAR
    ════════════════════════════════════════════════════ */
-const StepEmail = ({ email, setEmail, onNext }) => (
+const ProgressBar = ({ current, total }) => (
+	<div className="flex gap-1.5 mb-8">
+		{Array.from({ length: total }).map((_, i) => (
+			<div key={i} className={`h-1 flex-1 rounded-full transition-colors duration-300 ${
+				i < current ? 'bg-[#0052FF]' : i === current ? 'bg-[#0052FF] opacity-40' : 'bg-[#2C2F36]'
+			}`} />
+		))}
+	</div>
+);
+
+/* ════════════════════════════════════════════════════
+   STEP 0 — Full Name + Email (local only, no backend)
+   ════════════════════════════════════════════════════ */
+const StepNameEmail = ({ name, setName, email, setEmail, onNext }) => {
+	const [localError, setLocalError] = useState('');
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		setLocalError('');
+		if (!name.trim()) { setLocalError('Full name is required'); return; }
+		if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setLocalError('A valid email is required'); return; }
+		onNext();
+	};
+
+	return (
 	<Shell>
-		<form onSubmit={(e) => { e.preventDefault(); if (email.trim()) onNext(); }}>
+		<ProgressBar current={0} total={2} />
+		<form onSubmit={handleSubmit}>
 			<h1 className="text-[1.75rem] font-bold text-white mb-2">Create your account</h1>
 			<p className="text-[0.9375rem] text-[#8A919E] mb-6 leading-6">
 				Access all that Coinbase has to offer with a single account.
 			</p>
+			<DarkInput label="Full Name" type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Your full name" autoFocus />
 			<DarkInput label="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Your email address" />
+			{localError && (
+				<div className="mb-4 px-4 py-3 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-sm">{localError}</div>
+			)}
 			<BlueBtn type="submit">Continue</BlueBtn>
 
 			<div className="flex items-center gap-3 my-5">
@@ -282,7 +366,6 @@ const StepEmail = ({ email, setEmail, onNext }) => (
 				<span className="text-[0.75rem] font-semibold text-[#5B616E] tracking-wider">OR</span>
 				<div className="flex-1 h-px bg-[#2C2F36]" />
 			</div>
-
 			<div className="flex flex-col gap-3 mb-6">
 				<button type="button" className="w-full h-14 rounded-full bg-[#1E2025] hover:bg-[#2C2F36] border border-[#2C2F36] text-white font-semibold text-[0.9375rem] flex items-center justify-center gap-3 transition-colors">
 					<GoogleIcon /> Sign up with Google
@@ -291,7 +374,6 @@ const StepEmail = ({ email, setEmail, onNext }) => (
 					<AppleIcon /> Sign up with Apple
 				</button>
 			</div>
-
 			<p className="text-center text-[0.875rem] text-[#5B616E] mb-4">
 				Already have an account?{' '}
 				<Link to="/signin" className="text-[#0052FF] hover:underline font-medium">Sign in</Link>
@@ -303,14 +385,60 @@ const StepEmail = ({ email, setEmail, onNext }) => (
 			</p>
 		</form>
 	</Shell>
-);
+	);
+};
 
 /* ════════════════════════════════════════════════════
-   STEP 1 — Verify email code
+   STEP 1 — Password + Confirm (calls backend register)
    ════════════════════════════════════════════════════ */
-const StepVerifyEmail = ({ email, onNext }) => {
+const StepPassword = ({  email, password, setPassword, onNext, onBack, error }) => {
+	const [confirm, setConfirm] = useState('');
+	const [localError, setLocalError] = useState('');
+	const [loading, setLoading] = useState(false);
+
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		setLocalError('');
+		if (!password.trim()) { setLocalError('Password is required'); return; }
+		if (password.length < 8) { setLocalError('Password must be at least 8 characters'); return; }
+		if (password !== confirm) { setLocalError('Passwords do not match'); return; }
+		setLoading(true);
+		await onNext();
+		setLoading(false);
+	};
+
+	return (
+	<Shell>
+		<ProgressBar current={1} total={2} />
+		<button type="button" onClick={onBack} className="flex items-center gap-2 text-[#8A919E] hover:text-white text-sm mb-6 transition-colors">
+			<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+			Back
+		</button>
+		<form onSubmit={handleSubmit}>
+			<h1 className="text-[1.75rem] font-bold text-white mb-1">Create a password</h1>
+			<p className="text-[0.9375rem] text-[#8A919E] mb-6 leading-6">
+				Setting up account for <span className="font-semibold text-white">{email}</span>
+			</p>
+			<DarkInput label="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Min. 8 characters" autoFocus />
+			<DarkInput label="Confirm Password" type="password" value={confirm} onChange={(e) => setConfirm(e.target.value)} placeholder="Repeat your password" />
+			{(localError || error) && (
+				<div className="mb-4 px-4 py-3 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-sm">
+					{localError || error}
+				</div>
+			)}
+			<BlueBtn type="submit" disabled={loading}>{loading ? 'Creating account…' : 'Continue'}</BlueBtn>
+		</form>
+	</Shell>
+	);
+};
+
+/* ════════════════════════════════════════════════════
+   STEP 1 — Verify email code (wired to backend)
+   ════════════════════════════════════════════════════ */
+const StepVerifyEmail = ({ email, onVerify, onResend, error, loading, devOtp }) => {
 	const [code, setCode] = useState(['', '', '', '', '', '']);
 	const [timer, setTimer] = useState(30);
+	const [otpDismissed, setOtpDismissed] = useState(false);
 	const refs = useRef([]);
 
 	useEffect(() => {
@@ -321,11 +449,13 @@ const StepVerifyEmail = ({ email, onNext }) => {
 
 	const focusAt = useCallback((i) => refs.current[i]?.focus(), []);
 
+	const submitCode = (c) => { if (c.every((d) => d)) onVerify(c.join('')); };
+
 	const handleChange = (i, v) => {
 		if (v && !/^\d$/.test(v)) return;
 		const c = [...code]; c[i] = v; setCode(c);
 		if (v && i < 5) focusAt(i + 1);
-		if (c.every((d) => d)) setTimeout(onNext, 300);
+		submitCode(c);
 	};
 
 	const handleKey = (i, e) => { if (e.key === 'Backspace' && !code[i] && i > 0) focusAt(i - 1); };
@@ -335,18 +465,39 @@ const StepVerifyEmail = ({ email, onNext }) => {
 		const p = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 6);
 		const c = [...code]; for (let i = 0; i < 6; i++) c[i] = p[i] || ''; setCode(c);
 		focusAt(Math.min(p.length, 5));
-		if (c.every((d) => d)) setTimeout(onNext, 300);
+		submitCode(c);
+	};
+
+	const handleResend = () => {
+		if (timer > 0) return;
+		setTimer(30);
+		setCode(['', '', '', '', '', '']);
+		onResend?.();
 	};
 
 	return (
 		<Shell>
+			{devOtp && !otpDismissed && (
+				<div className="mb-5 rounded-xl border border-yellow-400/40 bg-yellow-400/10 px-4 py-3 flex items-start gap-3">
+					<svg className="mt-0.5 shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none">
+						<circle cx="12" cy="12" r="10" stroke="#FBBF24" strokeWidth="2"/>
+						<path d="M12 8v4m0 4h.01" stroke="#FBBF24" strokeWidth="2" strokeLinecap="round"/>
+					</svg>
+					<div className="flex-1 min-w-0">
+						<p className="text-[0.8125rem] font-semibold text-yellow-300 mb-0.5">Dev mode — your OTP</p>
+						<p className="text-[1.5rem] font-bold tracking-[0.35em] text-yellow-200 font-mono">{devOtp}</p>
+						<p className="text-[0.75rem] text-yellow-400/70 mt-1">This banner only appears outside production.</p>
+					</div>
+					<button onClick={() => setOtpDismissed(true)} className="text-yellow-400/60 hover:text-yellow-300 transition-colors text-lg leading-none mt-0.5">✕</button>
+				</div>
+			)}
 			<h1 className="text-[1.75rem] font-bold text-white mb-2">Enter the code we emailed you</h1>
 			<p className="text-[0.9375rem] text-[#8A919E] mb-6 leading-6">
 				Check your email <span className="font-semibold text-white">{email}</span>.
 				This helps us keep your account secure by verifying that it&apos;s really you.
 			</p>
 			<p className="text-[0.875rem] font-semibold text-white mb-3">Enter 6-digit code</p>
-			<div className="flex gap-3 mb-6">
+			<div className="flex gap-3 mb-4">
 				{code.map((d, i) => (
 					<input key={i} ref={(el) => (refs.current[i] = el)} type="text" inputMode="numeric" maxLength={1}
 						value={d} onChange={(e) => handleChange(i, e.target.value)} onKeyDown={(e) => handleKey(i, e)}
@@ -355,9 +506,13 @@ const StepVerifyEmail = ({ email, onNext }) => {
 					/>
 				))}
 			</div>
-			<button onClick={timer <= 0 ? () => setTimer(30) : undefined} disabled={timer > 0}
-				className={`w-full h-14 rounded-full font-semibold text-[0.9375rem] transition-colors mb-6 ${timer > 0 ? 'bg-[#1E2025] text-[#5B616E] cursor-not-allowed' : 'bg-[#5B8DEF] hover:bg-[#4A7DE0] text-white cursor-pointer'}`}>
-				{timer > 0 ? `Resend code in ${timer}` : 'Resend code'}
+			{error && (
+				<div className="mb-4 px-4 py-3 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-sm">{error}</div>
+			)}
+			{loading && <p className="text-[#8A919E] text-sm mb-4">Verifying…</p>}
+			<button onClick={handleResend} disabled={timer > 0}
+				className={`w-full h-14 rounded-full font-semibold text-[0.9375rem] transition-colors mb-6 ${timer > 0 ? 'bg-[#1E2025] text-[#5B616E] cursor-not-allowed' : 'bg-[#0052FF] hover:bg-[#1a5cff] text-white cursor-pointer'}`}>
+				{timer > 0 ? `Resend code in ${timer}s` : 'Resend code'}
 			</button>
 			<p className="text-center text-[0.875rem] text-white">
 				Can&apos;t access?{' '}<a href="#" className="text-[#0052FF] hover:underline font-medium">Update your 2FA</a>
@@ -659,63 +814,189 @@ const StepUpload = ({ onNext, onBack }) => {
 };
 
 /* ════════════════════════════════════════════════════
-   STEP 8 — Verifying identity (loading state)
+   STEP 8 — Verifying identity (loading → success modal)
    ════════════════════════════════════════════════════ */
-const StepVerifying = () => (
+const StepVerifying = ({ onDone }) => {
+	const [verified, setVerified] = useState(false);
+
+	useEffect(() => {
+		const t = setTimeout(() => setVerified(true), 5000);
+		return () => clearTimeout(t);
+	}, []);
+
+	return (
 	<div className="min-h-screen bg-[#0A0B0D] flex flex-col">
 		<div className="px-6 pt-5">
 			<a href="/"><Logo height={28} className="brightness-0 invert" /></a>
 		</div>
 		<div className="flex-1 flex flex-col items-center justify-center px-4">
-			{/* Blue circle with document icon */}
-			<div className="w-28 h-28 rounded-full bg-[#0052FF] flex items-center justify-center mb-8 animate-pulse">
-				<svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-					<rect x="12" y="6" width="24" height="32" rx="2" fill="white" fillOpacity="0.9" />
-					<line x1="16" y1="14" x2="32" y2="14" stroke="#0052FF" strokeWidth="1.5" />
-					<line x1="16" y1="18" x2="32" y2="18" stroke="#0052FF" strokeWidth="1.5" />
-					<line x1="16" y1="22" x2="32" y2="22" stroke="#0052FF" strokeWidth="1.5" />
-					<line x1="16" y1="26" x2="28" y2="26" stroke="#0052FF" strokeWidth="1.5" />
-					<circle cx="18" cy="32" r="1.5" fill="#0052FF" />
-					<circle cx="22" cy="32" r="1.5" fill="#0052FF" />
-					<circle cx="26" cy="32" r="1.5" fill="#0052FF" />
-				</svg>
+			<div className={`w-28 h-28 rounded-full bg-[#0052FF] flex items-center justify-center mb-8 ${verified ? '' : 'animate-pulse'}`}>
+				{verified ? (
+					<svg width="52" height="52" viewBox="0 0 52 52" fill="none">
+						<circle cx="26" cy="26" r="26" fill="white" fillOpacity="0.15" />
+						<path d="M14 27l9 9 16-18" stroke="white" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
+					</svg>
+				) : (
+					<svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+						<rect x="12" y="6" width="24" height="32" rx="2" fill="white" fillOpacity="0.9" />
+						<line x1="16" y1="14" x2="32" y2="14" stroke="#0052FF" strokeWidth="1.5" />
+						<line x1="16" y1="18" x2="32" y2="18" stroke="#0052FF" strokeWidth="1.5" />
+						<line x1="16" y1="22" x2="32" y2="22" stroke="#0052FF" strokeWidth="1.5" />
+						<line x1="16" y1="26" x2="28" y2="26" stroke="#0052FF" strokeWidth="1.5" />
+						<circle cx="18" cy="32" r="1.5" fill="#0052FF" />
+						<circle cx="22" cy="32" r="1.5" fill="#0052FF" />
+						<circle cx="26" cy="32" r="1.5" fill="#0052FF" />
+					</svg>
+				)}
 			</div>
-			<h1 className="text-[1.75rem] font-bold text-white mb-3">Verifying your identity</h1>
-			<p className="text-[0.9375rem] text-[#8A919E]">This should only take a minute.</p>
+			<h1 className="text-[1.75rem] font-bold text-white mb-3">
+				{verified ? 'Identity verified!' : 'Verifying your identity'}
+			</h1>
+			<p className="text-[0.9375rem] text-[#8A919E]">
+				{verified ? 'Your ID has been successfully verified.' : 'This should only take a minute.'}
+			</p>
 		</div>
+
+		{verified && (
+			<div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-end sm:items-center justify-center z-50 px-4 pb-6 sm:pb-0">
+				<div className="w-full max-w-sm bg-[#16181C] rounded-2xl p-8 flex flex-col items-center text-center shadow-2xl">
+					<div className="w-20 h-20 rounded-full bg-[#0052FF] flex items-center justify-center mb-5">
+						<svg width="40" height="40" viewBox="0 0 52 52" fill="none">
+							<path d="M14 27l9 9 16-18" stroke="white" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
+						</svg>
+					</div>
+					<h2 className="text-[1.5rem] font-bold text-white mb-2">You&apos;re all set!</h2>
+					<p className="text-[0.9375rem] text-[#8A919E] mb-8 leading-6">
+						Your identity has been verified. Welcome to Coinbase.
+					</p>
+					<button
+						onClick={onDone}
+						className="w-full h-14 rounded-full bg-[#0052FF] hover:bg-[#1a5cff] text-white font-semibold text-[0.9375rem] transition-colors"
+					>
+						Continue to Coinbase
+					</button>
+				</div>
+			</div>
+		)}
 	</div>
-);
+	);
+};
 
 /* ════════════════════════════════════════════════════
    MAIN SIGN-UP COMPONENT — step orchestrator
    ════════════════════════════════════════════════════ */
+const SS_KEY = 'cb_signup';
+const loadSession = () => { try { return JSON.parse(sessionStorage.getItem(SS_KEY) || '{}'); } catch { return {}; } };
+const saveSession = (data) => sessionStorage.setItem(SS_KEY, JSON.stringify(data));
+const clearSession = () => sessionStorage.removeItem(SS_KEY);
+
 const SignUp = () => {
-	const [step, setStep] = useState(0);
-	const [email, setEmail] = useState('');
+	const saved = loadSession();
+	const [step, setStep] = useState(saved.step ?? 0);
+	const [name, setName] = useState(saved.name ?? '');
+	const [email, setEmail] = useState(saved.email ?? '');
+	const [password, setPassword] = useState('');
+	const [userId, setUserId] = useState(saved.userId ?? '');
+	const [otpError, setOtpError] = useState('');
+	const [otpLoading, setOtpLoading] = useState(false);
+	const [registerError, setRegisterError] = useState('');
+	const [devOtp, setDevOtp] = useState('');
+	const navigate = useNavigate();
+	const { setUser } = useAuth();
 	const [citizenship, setCitizenship] = useState('GH');
 	const [residence, setResidence] = useState('GH');
 	const [birthCity, setBirthCity] = useState('');
 	const [birthCountry, setBirthCountry] = useState('GH');
 	const [addressFile, setAddressFile] = useState(null);
 
-	const next = () => setStep((s) => s + 1);
-	const back = () => setStep((s) => Math.max(0, s - 1));
+	const goTo = (s) => {
+		setStep(s);
+		saveSession({ step: s, name, email, userId });
+	};
+	const next = () => goTo(step + 1);
+	const back = () => goTo(Math.max(0, step - 1));
+
+	const handleNameEmailNext = () => {
+		saveSession({ step: 1, name, email, userId });
+		setStep(1);
+	};
+
+	const handleRegister = async () => {
+		setRegisterError('');
+		try {
+			const res = await fetch(`${API_BASE}/register`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ name, email, password }),
+			});
+			const data = await res.json();
+			if (!res.ok) { setRegisterError(data.message || 'Registration failed'); return; }
+			setUserId(data.userId);
+			if (data.devOtp) setDevOtp(data.devOtp);
+			saveSession({ step: 2, name, email, userId: data.userId });
+			setStep(2);
+		} catch {
+			setRegisterError('Network error. Please try again.');
+		}
+	};
+
+	const handleVerifyOtp = async (otp) => {
+		setOtpError('');
+		setOtpLoading(true);
+		try {
+			const res = await fetch(`${API_BASE}/api/auth/verify-email`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ userId, otp }),
+			});
+			const data = await res.json();
+			if (!res.ok) { setOtpError(data.message || 'Invalid code'); return; }
+			clearSession();
+			setStep(3);
+		} catch {
+			setOtpError('Network error. Please try again.');
+		} finally {
+			setOtpLoading(false);
+		}
+	};
+
+	const handleResendOtp = async () => {
+		await fetch(`${API_BASE}/api/auth/resend-otp`, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ userId }),
+		});
+	};
+
+	const handleKycComplete = async () => {
+		try {
+			await api.post('/kyc/complete');
+			const { data } = await api.get('/users/me');
+			setUser(data.user);
+		} catch {
+			// best-effort — navigate regardless
+		} finally {
+			clearSession();
+			navigate('/dashboard');
+		}
+	};
 
 	switch (step) {
-		case 0: return <StepEmail email={email} setEmail={setEmail} onNext={next} />;
-		case 1: return <StepVerifyEmail email={email} onNext={next} />;
-		case 2: return <StepAccountSetup onNext={next} />;
-		case 3: return <StepEmailOptIn onNext={next} />;
-		case 4: return <StepCountry citizenship={citizenship} setCitizenship={setCitizenship} residence={residence} setResidence={setResidence} onNext={next} />;
-		case 5: return <StepBirth city={birthCity} setCity={setBirthCity} country={birthCountry} setCountry={setBirthCountry} onNext={next} />;
-		case 6: return <StepIdType onSelect={() => next()} />;
-		case 7: return <StepUpload onNext={next} onBack={back} />;
-		case 8: return <StepVerifying />;
-		case 9: return <AllSetStep onContinue={next} />;
-		case 10: return <VerifyAddressStep onNext={next} onFile={file => { setAddressFile(file); setStep(11); }} />;
-		case 11: return <PreviewAddressStep file={addressFile} onConfirm={() => setStep(12)} onReupload={() => setStep(10)} />;
-		case 12: return <VerifyingAddressStep />;
-		case 13: return <AddressFailStep onRetry={() => setStep(10)} />;
+		case 0: return <StepNameEmail name={name} setName={setName} email={email} setEmail={setEmail} onNext={handleNameEmailNext} />;
+		case 1: return <StepPassword name={name} email={email} password={password} setPassword={setPassword} onNext={handleRegister} onBack={() => { setStep(0); saveSession({ step: 0, name, email, userId }); }} error={registerError} />;
+		case 2: return <StepVerifyEmail email={email} onVerify={handleVerifyOtp} onResend={handleResendOtp} error={otpError} loading={otpLoading} devOtp={devOtp} />;
+		case 3: return <StepAccountSetup onNext={next} />;
+		case 4: return <StepEmailOptIn onNext={next} />;
+		case 5: return <StepCountry citizenship={citizenship} setCitizenship={setCitizenship} residence={residence} setResidence={setResidence} onNext={next} />;
+		case 6: return <StepBirth city={birthCity} setCity={setBirthCity} country={birthCountry} setCountry={setBirthCountry} onNext={next} />;
+		case 7: return <StepIdType onSelect={() => next()} />;
+		case 8: return <StepUpload onNext={next} onBack={back} />;
+		case 9: return <StepVerifying onDone={next} />;
+		case 10: return <AllSetStep onContinue={next} />;
+		case 11: return <VerifyAddressStep onNext={next} onFile={file => { setAddressFile(file); setStep(12); }} />;
+		case 12: return <PreviewAddressStep file={addressFile} onConfirm={() => setStep(13)} onReupload={() => setStep(11)} />;
+		case 13: return <VerifyingAddressStep onDone={handleKycComplete} />;
+		case 14: return <AddressFailStep onRetry={() => setStep(11)} />;
 		default: return <StepVerifying />;
 	}
 };

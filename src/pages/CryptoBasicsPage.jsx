@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import Header from '../components/header';
-import Footer from '../components/Footer';
+import Footer from '../components/footer';
 import SubscribePopup from '../components/SubscribePopup';
 import LearnCard from '../components/sections/LearnCard';
 

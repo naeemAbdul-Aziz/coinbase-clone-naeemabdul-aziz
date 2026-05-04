@@ -1,0 +1,28 @@
+<svg preserveAspectRatio="none" width="100%" height="100%" overflow="visible" style="display: block;" viewBox="0 0 81 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Group 41">
+<g id="Group 40">
+<rect id="Rectangle 95" x="21" width="40" height="45" fill="url(#paint0_linear_0_58)"/>
+<path id="Rectangle 94" d="M0 70.5C0 48.1325 18.1325 30 40.5 30C62.8675 30 81 48.1325 81 70.5V100H0V70.5Z" fill="url(#paint1_linear_0_58)"/>
+<path id="Intersect" fill-rule="evenodd" clip-rule="evenodd" d="M61 35.564V54C61 65.0457 52.0457 74 41 74C29.9543 74 21 65.0457 21 54V34.9949C26.7845 31.8112 33.4307 30 40.5 30C47.9802 30 54.9868 32.0279 61 35.564Z" fill="var(--fill-0, #2050F6)"/>
+</g>
+<circle id="Ellipse 51" cx="41" cy="53" r="15" fill="var(--fill-0, #0A0A0C)"/>
+<g id="Link" clip-path="url(#clip0_0_58)">
+<g id="Vector">
+</g>
+<path id="Vector_2" d="M46 47H42V49H46C47.65 49 49 50.35 49 52C49 53.65 47.65 55 46 55H42V57H46C48.76 57 51 54.76 51 52C51 49.24 48.76 47 46 47ZM40 55H36C34.35 55 33 53.65 33 52C33 50.35 34.35 49 36 49H40V47H36C33.24 47 31 49.24 31 52C31 54.76 33.24 57 36 57H40V55ZM37 51H45V53H37V51Z" fill="var(--fill-0, white)"/>
+</g>
+</g>
+<defs>
+<linearGradient id="paint0_linear_0_58" x1="41" y1="0" x2="41" y2="45" gradientUnits="userSpaceOnUse">
+<stop stop-color="#9731F3"/>
+<stop offset="1" stop-color="#84E1F0"/>
+</linearGradient>
+<linearGradient id="paint1_linear_0_58" x1="40.5" y1="30" x2="40.5" y2="100" gradientUnits="userSpaceOnUse">
+<stop stop-color="#59D184"/>
+<stop offset="1" stop-color="#F9D448"/>
+</linearGradient>
+<clipPath id="clip0_0_58">
+<rect width="24" height="24" fill="white" transform="translate(29 40)"/>
+</clipPath>
+</defs>
+</svg>

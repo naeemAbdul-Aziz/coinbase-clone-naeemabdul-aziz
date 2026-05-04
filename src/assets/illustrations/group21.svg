@@ -1,0 +1,12 @@
+<svg preserveAspectRatio="none" width="100%" height="100%" overflow="visible" style="display: block;" viewBox="0 0 59 59" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Group 21">
+<mask id="mask0_0_69" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="59" height="59">
+<circle id="Ellipse 35" cx="29.5" cy="29.5" r="29.5" fill="var(--fill-0, white)"/>
+</mask>
+<g mask="url(#mask0_0_69)">
+<circle id="Ellipse 38" cx="29.5" cy="29.5" r="29.5" fill="var(--fill-0, white)"/>
+<circle id="Ellipse 36" cx="30" cy="19" r="10" fill="var(--fill-0, black)"/>
+<circle id="Ellipse 37" cx="30" cy="55" r="22" fill="var(--fill-0, black)"/>
+</g>
+</g>
+</svg>
