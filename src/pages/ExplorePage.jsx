@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import Header from '../components/header';
-import Footer from '../components/Footer';
+import Header from '../components/Header.jsx';
+import Footer from '../components/Footer.jsx';
 import Container from '../components/ui/Container';
 import Button from '../components/ui/Button';
 import FilterDropdown from '../components/ui/FilterDropdown';

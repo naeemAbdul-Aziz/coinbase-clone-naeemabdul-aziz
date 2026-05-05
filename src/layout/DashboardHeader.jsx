@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useSidebar } from '../context/SidebarContext';
-import { useAuth } from '../context/AuthContext';
+import { useSidebar } from '../context/SidebarContext.jsx';
+import { useAuth } from '../context/AuthContext.jsx';
 import { MenuIcon, CloseIcon } from '../components/ui/icons/CdsIcons';
 
 const DashboardHeader = () => {

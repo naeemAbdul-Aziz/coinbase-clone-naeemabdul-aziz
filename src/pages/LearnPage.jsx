@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import Header from '../components/header';
-import Footer from '../components/Footer';
+import Header from '../components/Header.jsx';
+import Footer from '../components/Footer.jsx';
 import SubscribePopup from '../components/SubscribePopup';
 import LearnCard from '../components/LearnCard';
 import { PlayCircle } from 'lucide-react';

@@ -1,8 +1,8 @@
 import { Outlet } from 'react-router-dom';
-import { SidebarProvider, useSidebar } from '../context/SidebarContext';
-import AppSidebar from './AppSidebar';
-import DashboardHeader from './DashboardHeader';
-import Backdrop from './Backdrop';
+import { SidebarProvider, useSidebar } from '../context/SidebarContext.jsx';
+import AppSidebar from './AppSidebar.jsx';
+import DashboardHeader from './DashboardHeader.jsx';
+import Backdrop from './Backdrop.jsx';
 
 const LayoutContent = () => {
   const { isExpanded, isHovered } = useSidebar();

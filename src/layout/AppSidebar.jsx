@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useSidebar } from '../context/SidebarContext';
-import { useAuth } from '../context/AuthContext';
-import Logo from '../components/ui/Logo';
+import { useSidebar } from '../context/SidebarContext.jsx';
+import { useAuth } from '../context/AuthContext.jsx';
+import Logo from '../components/ui/Logo.jsx';
 import {
   DashboardIcon, BriefcaseIcon, ChartBarIcon, RocketIcon, NewsFeedIcon,
   AddCryptoIcon, SendIcon, ReceiveIcon, SwapIcon, ProfileIcon, LogoutIcon,
