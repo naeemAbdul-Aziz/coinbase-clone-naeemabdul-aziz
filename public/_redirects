@@ -1,1 +1,7 @@
+ /api/* https://naeem-crypto-api.onrender.com/api/:splat 200
+ /register https://naeem-crypto-api.onrender.com/register 200
+ /login https://naeem-crypto-api.onrender.com/login 200
+ /profile https://naeem-crypto-api.onrender.com/profile 200
+ /crypto https://naeem-crypto-api.onrender.com/crypto 200
+ /uploads/* https://naeem-crypto-api.onrender.com/uploads/:splat 200
 /* /index.html 200

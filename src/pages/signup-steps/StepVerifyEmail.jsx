@@ -1,5 +1,5 @@
 import { useRef, useEffect, useCallback, useState } from 'react';
-import { Shell, BlueBtn } from './SignupUI.jsx';
+import { Shell, BlueBtn } from './SignupUI';
 
 const StepVerifyEmail = ({ email, onVerify, onResend, error, loading }) => {
   const [code, setCode] = useState(['', '', '', '', '', '']);

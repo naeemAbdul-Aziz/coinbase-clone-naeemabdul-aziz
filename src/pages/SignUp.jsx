@@ -211,7 +211,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import Logo from '../components/ui/Logo';
 import api from '../services/api';
 import { useAuth } from '../context/AuthContext';
-import { API_BASE } from '../config/api';
 
 /* ════════════════════════════════════════════════════
    Shared dark-page shell
@@ -351,15 +350,9 @@ const StepNameEmail = ({ name, setName, email, setEmail, onNext }) => {
 		<ProgressBar current={0} total={2} />
 		<form onSubmit={handleSubmit}>
 			<h1 className="text-[1.75rem] font-bold text-white mb-2">Create your account</h1>
-			<p className="text-[0.9375rem] text-[#8A919E] mb-4 leading-6">
+			<p className="text-[0.9375rem] text-[#8A919E] mb-6 leading-6">
 				Access all that Coinbase has to offer with a single account.
 			</p>
-			
-			{/* Demo app warning */}
-			<div className="mb-6 px-3 py-2 rounded-lg bg-yellow-500/10 border border-yellow-500/30">
-				<p className="text-[0.8125rem] text-yellow-300 font-medium">⚠️ Demo app – do not use your real password</p>
-			</div>
-			
 			<DarkInput label="Full Name" type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Your full name" autoFocus />
 			<DarkInput label="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Your email address" />
 			{localError && (
@@ -422,15 +415,9 @@ const StepPassword = ({  email, password, setPassword, onNext, onBack, error }) 
 		</button>
 		<form onSubmit={handleSubmit}>
 			<h1 className="text-[1.75rem] font-bold text-white mb-1">Create a password</h1>
-			<p className="text-[0.9375rem] text-[#8A919E] mb-4 leading-6">
+			<p className="text-[0.9375rem] text-[#8A919E] mb-6 leading-6">
 				Setting up account for <span className="font-semibold text-white">{email}</span>
 			</p>
-			
-			{/* Demo app warning */}
-			<div className="mb-6 px-3 py-2 rounded-lg bg-yellow-500/10 border border-yellow-500/30">
-				<p className="text-[0.8125rem] text-yellow-300 font-medium">⚠️ Demo app – do not use your real password</p>
-			</div>
-			
 			<DarkInput label="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Min. 8 characters" autoFocus />
 			<DarkInput label="Confirm Password" type="password" value={confirm} onChange={(e) => setConfirm(e.target.value)} placeholder="Repeat your password" />
 			{(localError || error) && (
@@ -936,19 +923,13 @@ const SignUp = () => {
 	const handleRegister = async () => {
 		setRegisterError('');
 		try {
-			const res = await fetch(`${API_BASE}/register`, {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ name, email, password }),
-			});
-			const data = await res.json();
-			if (!res.ok) { setRegisterError(data.message || 'Registration failed'); return; }
+			const { data } = await api.post('/auth/register', { name, email, password });
 			setUserId(data.userId);
 			if (data.devOtp) setDevOtp(data.devOtp);
 			saveSession({ step: 2, name, email, userId: data.userId });
 			setStep(2);
-		} catch {
-			setRegisterError('Network error. Please try again.');
+		} catch (error) {
+			setRegisterError(error?.response?.data?.message || 'Network error. Please try again.');
 		}
 	};
 
@@ -956,28 +937,18 @@ const SignUp = () => {
 		setOtpError('');
 		setOtpLoading(true);
 		try {
-			const res = await fetch(`${API_BASE}/api/auth/verify-email`, {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ userId, otp }),
-			});
-			const data = await res.json();
-			if (!res.ok) { setOtpError(data.message || 'Invalid code'); return; }
+			await api.post('/auth/verify-email', { userId, otp });
 			clearSession();
 			setStep(3);
-		} catch {
-			setOtpError('Network error. Please try again.');
+		} catch (error) {
+			setOtpError(error?.response?.data?.message || 'Network error. Please try again.');
 		} finally {
 			setOtpLoading(false);
 		}
 	};
 
 	const handleResendOtp = async () => {
-		await fetch(`${API_BASE}/api/auth/resend-otp`, {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ userId }),
-		});
+		await api.post('/auth/resend-otp', { userId });
 	};
 
 	const handleKycComplete = async () => {
