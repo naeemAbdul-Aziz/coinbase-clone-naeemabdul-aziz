@@ -3,7 +3,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext.jsx';
 import { useAuth } from './context/AuthContext.jsx';
 import PrivateRoute from './components/PrivateRoute.jsx';
-import Header from './components/header.jsx';
+import Header from './components/Header.jsx';
 import Footer from './components/Footer.jsx';
 import HeroSection from './components/sections/HeroSection.jsx';
 import ExploreCryptoSection from './components/sections/ExploreCryptoSection.jsx';
